@@ -9,45 +9,36 @@ write_conn = psycopg2.connect(dbname='dwh', user='dwh_krasnoyarsk',
                         password='dwh_krasnoyarsk_uBPaXNSx', host='de-edu-db.chronosavant.ru')
 write_cursor = write_conn.cursor()
 
-read_cursor.execute("SELECT * FROM main.rides")
-rides = read_cursor.fetchall()
-read_cursor.execute("""SELECT car_plate_num, event, movement.dt, rides.dt, client_phone, card_num, point_from, point_to
+
+read_cursor.execute("""SELECT car_plate_num, event, movement.dt, rides.dt, client_phone, point_from, point_to, distance, price
                     FROM main.movement INNER JOIN main.rides ON main.movement.ride = main.rides.ride_id
                     WHERE event = 'END' OR event = 'CANCEL'""")
-movement = read_cursor.fetchall()
+rides = read_cursor.fetchall()
 
-for i in movement:
-    print(i)
-# for ride in rides:
-#     print(ride)
-#     point_from_txt = 
-#     point_to_txt = 
-#     distance_val = 
-#     price_amt = 
-#     client_phone_num = 
-#     driver_pers_num = 
-#     car_plate_num = 
-#     ride_arrival_dt = 
-#     ride_start_dt = 
-#     ride_end_dt = 
-
-#     continue
-
-#     # TODO Доделать проверку на обновление end_dt если есть повторы
-#     write_cursor.execute(f"SELECT * FROM dim_cars WHERE plate_num = '{plate_num}';")
-#     update_car = write_cursor.fetchall()
-#     if len(update_car) > 0:
-#         last_line = update_car[-1]
-        
-#         if (tuple([last_line[0]])+last_line[2:]) == (plate_num, model_name, revision_dt, deleted_flag, end_dt):
-#             print('-')
-#             continue
-#         else:
-#             write_cursor.execute(f"UPDATE dim_cars SET end_dt = CURRENT_TIMESTAMP WHERE plate_num = '{plate_num}' AND end_dt IS NULL;")
+ride_id = 0
+for ride in rides[:2]:
+    print(ride)
+    point_from_txt = ride[5]
+    point_to_txt = ride[6]
+    distance_val = ride[7]
+    price_amt = ride[8]
+    client_phone_num = ride[4]
+    driver_pers_num = None
+    car_plate_num = ride[0]
+    ride_arrival_dt = ride[3]
+    ride_start_dt = None
+    ride_end_dt = ride[2]
     
-#     write_cursor.execute('INSERT INTO dim_cars VALUES(%s, CURRENT_TIMESTAMP, %s, %s, %s, %s);',
-#                 (plate_num, model_name, revision_dt, deleted_flag, end_dt))
-#     write_conn.commit()
+    
+    print((ride_id, point_from_txt, point_to_txt, distance_val, price_amt, client_phone_num,\
+        driver_pers_num, car_plate_num, ride_arrival_dt, ride_start_dt, ride_end_dt))
+    
+    
+    write_cursor.execute('INSERT INTO fact_rides VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);',
+                (ride_id, point_from_txt, point_to_txt, distance_val, price_amt, ride_arrival_dt, ride_start_dt, ride_end_dt, client_phone_num,\
+                    driver_pers_num, car_plate_num))
+    write_conn.commit()
+    ride_id += 1
 
 
 write_cursor.close()
