@@ -52,15 +52,15 @@ def update_dim_drivers():
                                 driver_license_num, driver_license_dt, delited_flag, end_dt):
                 continue
             else:
-                print((personnel_num, last_name, first_name, middle_name, birth_dt,\
-                        card_num, driver_license_num, driver_license_dt, delited_flag, end_dt))
+                # print((personnel_num, last_name, first_name, middle_name, birth_dt,\
+                #         card_num, driver_license_num, driver_license_dt, delited_flag, end_dt))
                 write_cursor.execute(f"UPDATE dim_drivers SET end_dt = CURRENT_TIMESTAMP WHERE driver_license_num = '{driver_license_num}' AND end_dt IS NULL;")
         
         write_cursor.execute('INSERT INTO dim_drivers VALUES(%s, CURRENT_TIMESTAMP, %s, %s, %s, %s, %s, %s, %s, %s, %s);',
                     (personnel_num, last_name, first_name, middle_name, birth_dt,\
                         card_num, driver_license_num, driver_license_dt, delited_flag, end_dt))
-        print((personnel_num, last_name, first_name, middle_name, birth_dt,\
-                        card_num, driver_license_num, driver_license_dt, delited_flag, end_dt))
+        # print((personnel_num, last_name, first_name, middle_name, birth_dt,\
+        #                 card_num, driver_license_num, driver_license_dt, delited_flag, end_dt))
         personnel_num += 1
     write_conn.commit()
 
