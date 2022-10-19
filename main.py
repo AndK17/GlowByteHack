@@ -3,6 +3,7 @@ from upload_payments import update_fact_payments
 from upload_waybills import update_fact_waybills
 from upload_cars import update_dim_cars
 from upload_clients import update_dim_clients
+from upload_rides import update_fact_rides
 import schedule
 import time
 
@@ -31,14 +32,14 @@ def update():
         
     # 5. waybills
     print('fact_waybills start update')
-    d = update_fact_waybills()
-    if d == []:
+    if update_fact_waybills() == []:
         print('fact_waybills succesfully updated')
-    else:
-        print('error')
-        print(d)
         
     # 6. rides
+    print('fact_rides start update')
+    if update_fact_rides() == []:
+        print('fact_rides succesfully updated')
+
 
     print(f'[{time.ctime()}] Upload end')
     return

@@ -20,7 +20,7 @@ def update_dim_drivers():
     read_cursor.execute(f"SELECT * FROM main.drivers")
     drivers = read_cursor.fetchall()[last_read_line_num:]
 
-    #получение маскимальное id записи  
+    #получение маскимального id записи  
     write_cursor.execute("SELECT MAX(personnel_num) FROM dim_drivers")
     res = write_cursor.fetchall()
     if res != [(None,)]:
