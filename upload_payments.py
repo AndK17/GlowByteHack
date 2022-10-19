@@ -28,7 +28,7 @@ def update_fact_payments():
     else:
         transaction_id = 0
         
-    print(files)
+    # print(files)
     for file in files:
         with open('payments/'+file, newline='') as f:
             spamreader = csv.reader(f)
@@ -39,7 +39,7 @@ def update_fact_payments():
                     card_num = int(data[1])
                     transaction_amt = float(data[2])
                     transaction_dt = datetime.datetime.strptime(data[0], '%d.%m.%Y %H:%M:%S')
-                    print((transaction_id, card_num, transaction_amt, transaction_dt))
+                    # print((transaction_id, card_num, transaction_amt, transaction_dt))
 
                     
                     #запись данных

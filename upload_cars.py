@@ -43,7 +43,7 @@ def update_dim_cars():
         
         write_cursor.execute('INSERT INTO dim_cars VALUES(%s, CURRENT_TIMESTAMP, %s, %s, %s, %s);',
                     (plate_num, model_name, revision_dt, deleted_flag, end_dt))
-        print((plate_num, model_name, revision_dt, deleted_flag, end_dt))
+        # print((plate_num, model_name, revision_dt, deleted_flag, end_dt))
         last_read_line_num += 1
         write_conn.commit()
 

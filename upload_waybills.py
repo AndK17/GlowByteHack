@@ -28,8 +28,8 @@ def update_fact_waybills():
         waybill_num = res[-1][0] + 1
     else:
         waybill_num = 0
-    print(files)
-
+    
+    # print(files)
     for file in files:
         try:
             #выборка данных
@@ -43,7 +43,7 @@ def update_fact_waybills():
             
             write_cursor.execute(f"SELECT personnel_num FROM dim_drivers WHERE driver_license_num = '{license}'")
             driver_pers_num = write_cursor.fetchall()[-1][0]
-            print(waybill_num, driver_pers_num, plate_num, work_start_dt, work_end_dt, issue_dt)
+            # print(waybill_num, driver_pers_num, plate_num, work_start_dt, work_end_dt, issue_dt)
             
             #запись данных
             write_cursor.execute('INSERT INTO fact_waybills VALUES(%s, %s, %s, %s, %s, %s);',

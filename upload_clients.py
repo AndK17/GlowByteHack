@@ -40,7 +40,7 @@ def update_dim_clients():
             else:
                 write_cursor.execute(f"UPDATE dim_clients SET end_dt = CURRENT_TIMESTAMP WHERE phone_num = '{phone_num}' AND end_dt IS NULL;")
         
-        print((phone_num, card_num, deleted_flag, end_dt))
+        # print((phone_num, card_num, deleted_flag, end_dt))
         write_cursor.execute('INSERT INTO dim_clients VALUES(%s, CURRENT_TIMESTAMP, %s, %s, %s);',
                     (phone_num, card_num, deleted_flag, end_dt))
         write_conn.commit()

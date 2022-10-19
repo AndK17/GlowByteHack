@@ -49,13 +49,13 @@ def dowload_new_waybills(con):
         last_wb = f.readline()
     
     new_files = [i for i in con.nlst() if i > last_wb]
-    print(new_files)
     
     error_files = download('waybills/', new_files)
     
     if error_files == []:
         return 'OK'
     else:
+        print(f'ERROR files: {" ".join(error_files)}')
         return error_files
     
 
@@ -76,13 +76,13 @@ def dowload_new_payments(con):
         last_pay = f.readline()
     
     new_files = [i for i in con.nlst() if i > last_pay]
-    print(new_files)
     
     error_files = download('payments/', new_files)
     
     if error_files == []:
         return 'OK'
     else:
+        print(f'ERROR files: {" ".join(error_files)}')
         return error_files
     
     
