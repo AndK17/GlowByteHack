@@ -17,19 +17,24 @@ def dowload_all_waybills(con):
     
     files = con.nlst()
     dfiles = os.listdir('waybills/')
-    to_download = set(files)-set(dfiles)
+    to_download = list(set(files)-set(dfiles))
     
+    if to_download == []:
+        return
     
     error_files = []
-    for file in to_download:
+    for file in to_download[:200]:
         try:
             print(file)
             with open('waybills/'+file, 'wb') as f:
                 con.retrbinary('RETR ' + file, f.write, 1024)
         except:
+            os.remove('waybills/'+file)
             error_files.append[file]
-    
+            
+    con.close()
     print(error_files)
+    dowload_all_waybills()
 
 
 @connection
@@ -62,24 +67,26 @@ def dowload_all_payments(con):
     con.cwd('/payments')
 
     files = con.nlst()
-    dfiles = os.listdir('payments_bp/')
-    new_file_count = len(set(files)-set(dfiles))
+    dfiles = os.listdir('payments/')
+    to_download = list(set(files)-set(dfiles))
     
+    if to_download == []:
+        return
     
     error_files = []
-    for i in range(new_file_count//200 + 1):
-        to_download = set(files)-set(dfiles)
-        for file in to_download:
-            try:
-                print(file)
-                with open('payments_bp/'+file, 'wb') as f:
-                    con.retrbinary('RETR ' + file, f.write, 1024)
-            except Exception as e:
-                print(e)
-                os.remove('payments_bp/'+file)
-                error_files.append[file]
+    for file in to_download[:200]:
+        try:
+            print(file)
+            with open('payments/'+file, 'wb') as f:
+                con.retrbinary('RETR ' + file, f.write, 1024)
+        except Exception as e:
+            print(e)
+            os.remove('payments/'+file)
+            error_files.append[file]
     
+    con.close()
     print(error_files)
+    dowload_all_payments()
             
             
 @connection
@@ -108,7 +115,7 @@ def dowload_new_payments(con):
     
     
 if __name__ == "__main__":
-    # dowload_all_waibills()
+    # dowload_all_waybills()
     dowload_all_payments()
-    # dowload_new_waibills()
+    # dowload_new_waybills()
     # dowload_new_payments()
