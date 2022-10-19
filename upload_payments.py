@@ -21,7 +21,7 @@ def update_fact_payments():
 
     wrong_lines = []
 
-    write_cursor.execute("SELECT * FROM fact_payments")
+    write_cursor.execute("SELECT MAX(transaction_id) FROM fact_payments")
     res = write_cursor.fetchall()
     if res != []:
         transaction_id = res[-1][0] + 1
@@ -57,8 +57,8 @@ def update_fact_payments():
 
 
     #возможно стоити перенести в другое место и добавить проверку на ошибки
-    with open('last_payment.txt', 'w') as f:
-        if files != []:
+    if files != []:
+        with open('last_payment.txt', 'w') as f:
             f.write(files[-1])
 
 

@@ -12,19 +12,23 @@ def update_dim_drivers():
 
     # выбор только новых записей
     with open('last_read_line_driver.txt', 'r') as f:
-        last_read_line_num = int(f.readline())
+        last_read_line_num = f.readline()
+        if last_read_line_num == '':
+            last_read_line_num = 0
+        else:
+            last_read_line_num = int(last_read_line_num)
     read_cursor.execute(f"SELECT * FROM main.drivers")
     drivers = read_cursor.fetchall()[last_read_line_num:]
 
-    #получение id последней записи
-    # TODO возможно стоити заменить на маскимальное id записи 
-    write_cursor.execute("SELECT * FROM dim_drivers")
+    #получение маскимальное id записи  
+    write_cursor.execute("SELECT MAX(personnel_num) FROM dim_drivers")
     res = write_cursor.fetchall()
     if res != []:
         personnel_num = res[-1][0] + 1
     else:
         personnel_num = 0
 
+    
     for driver in drivers:
         last_name = driver[2]
         first_name = driver[1]
