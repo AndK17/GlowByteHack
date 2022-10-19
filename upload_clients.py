@@ -9,8 +9,17 @@ write_conn = psycopg2.connect(dbname='dwh', user='dwh_krasnoyarsk',
                         password='dwh_krasnoyarsk_uBPaXNSx', host='de-edu-db.chronosavant.ru')
 write_cursor = write_conn.cursor()
 
-read_cursor.execute("SELECT * FROM main.rides")
-clients = read_cursor.fetchall()
+
+# выбор только новых записей
+with open('last_read_line_client.txt', 'r') as f:
+    last_read_line_num = f.readline()
+    if last_read_line_num == '':
+        last_read_line_num = 0
+    else:
+        last_read_line_num = int(last_read_line_num)
+read_cursor.execute(f"SELECT * FROM main.rides")
+clients = read_cursor.fetchall()[last_read_line_num:]
+
 
 for client in clients:
     phone_num = client[2]
@@ -33,7 +42,10 @@ for client in clients:
                 (phone_num, card_num, deleted_flag, end_dt))
     write_conn.commit()
 
-
+with open('last_read_line_client.txt', 'w') as f:
+    f.write(str(last_read_line_num))
+    
+        
 write_cursor.close()
 write_conn.close()
 read_cursor.close()

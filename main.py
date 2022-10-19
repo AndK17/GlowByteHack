@@ -10,7 +10,10 @@ if update_fact_payments() == []:
     print('fact_payments succesfully updated')
     
 # 2. clients
-
+# print('Dim_clients start update')
+# if update_dim_clients() == 'OK':
+#     print('Dim_cients succesfully updated')
+    
 # 3. drivers
 print('Dim_drivers start update')
 if update_dim_drivers() == 'OK':

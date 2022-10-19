@@ -30,7 +30,7 @@ def dowload_all_waybills(con):
                 con.retrbinary('RETR ' + file, f.write, 1024)
         except:
             os.remove('waybills/'+file)
-            error_files.append[file]
+            error_files.append(file)
             
     con.close()
     print(error_files)
@@ -54,7 +54,7 @@ def dowload_new_waybills(con):
             with open('waybills/'+file, 'wb') as f:
                 con.retrbinary('RETR ' + file, f.write, 1024)
         except:
-            error_files.append[file]
+            error_files.append(file)
     
     if error_files == []:
         return 'OK'
@@ -82,7 +82,7 @@ def dowload_all_payments(con):
         except Exception as e:
             print(e)
             os.remove('payments/'+file)
-            error_files.append[file]
+            error_files.append(file)
     
     con.close()
     print(error_files)
@@ -106,7 +106,7 @@ def dowload_new_payments(con):
             with open('payments/'+file, 'wb') as f:
                 con.retrbinary('RETR ' + file, f.write, 1024)
         except:
-            error_files.append[file]
+            error_files.append(file)
     
     if error_files == []:
         return 'OK'
