@@ -23,13 +23,15 @@ def update_dim_drivers():
     #получение маскимальное id записи  
     write_cursor.execute("SELECT MAX(personnel_num) FROM dim_drivers")
     res = write_cursor.fetchall()
-    if res != []:
+    if res != [(None,)]:
         personnel_num = res[-1][0] + 1
     else:
         personnel_num = 0
 
-    
+    #запись новых данных
     for driver in drivers:
+        last_read_line_num += 1
+        
         last_name = driver[2]
         first_name = driver[1]
         middle_name = driver[3]
@@ -59,7 +61,6 @@ def update_dim_drivers():
                         card_num, driver_license_num, driver_license_dt, delited_flag, end_dt))
         print((personnel_num, last_name, first_name, middle_name, birth_dt,\
                         card_num, driver_license_num, driver_license_dt, delited_flag, end_dt))
-        last_read_line_num += 1
         personnel_num += 1
     write_conn.commit()
 

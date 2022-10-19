@@ -24,7 +24,7 @@ def update_fact_waybills():
     error_files = []
     write_cursor.execute("SELECT MAX(waybill_num) FROM fact_waybills")
     res = write_cursor.fetchall()
-    if res != []:
+    if res != [(None,)]:
         waybill_num = res[-1][0] + 1
     else:
         waybill_num = 0
@@ -32,12 +32,10 @@ def update_fact_waybills():
 
     for file in files:
         try:
-            print(file)
             #выборка данных
             tree = ET.parse('waybills/'+file)
 
             plate_num = tree.findall('waybill/car')[0].text #car num
-            driver_name = tree.findall('waybill/driver/name')[0].text
             license = tree.findall('waybill/driver/license')[0].text
             work_start_dt = tree.findall('waybill/period/start')[0].text
             work_end_dt = tree.findall('waybill/period/stop')[0].text
@@ -54,8 +52,8 @@ def update_fact_waybills():
             waybill_num += 1
             os.remove('waybills/'+file)
         except Exception as e:
-            print(e)
-            print(file)
+            # print(e)
+            # print(file)
             # os.remove('waybills/'+file)
             error_files.append(file)
 
@@ -63,9 +61,7 @@ def update_fact_waybills():
     if files != []:
         with open('last_waybill.txt', 'w') as f:
             f.write(files[-1])
-            print(files[-1])
-            # waybill_001097.xml
-
+            
     if error_files != []:
         print('Problems with files:' + ' '.join(error_files))
 

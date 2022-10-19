@@ -31,7 +31,7 @@ rides += read_cursor.fetchall()
 
 write_cursor.execute("SELECT MAX(ride_id) FROM fact_rides")
 res = write_cursor.fetchall()
-if res != []:
+if res != [(None,)]:
     ride_id = res[-1][0] + 1
 else:
     ride_id = 0

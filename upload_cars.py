@@ -30,7 +30,7 @@ def update_dim_cars():
         deleted_flag = car[4]
         end_dt = None
 
-        # TODO Доделать проверку на обновление end_dt если есть повторы
+        # Проверка на поворение строки и обновление end_dt если есть повторы
         write_cursor.execute(f"SELECT * FROM dim_cars WHERE plate_num = '{plate_num}';")
         update_car = write_cursor.fetchall()
         if len(update_car) > 0:

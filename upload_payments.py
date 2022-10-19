@@ -23,14 +23,13 @@ def update_fact_payments():
 
     write_cursor.execute("SELECT MAX(transaction_id) FROM fact_payments")
     res = write_cursor.fetchall()
-    if res != []:
+    if res != [(None,)]:
         transaction_id = res[-1][0] + 1
     else:
         transaction_id = 0
         
     print(files)
     for file in files:
-        print(file)
         with open('payments/'+file, newline='') as f:
             spamreader = csv.reader(f)
             for row in spamreader:
@@ -40,7 +39,6 @@ def update_fact_payments():
                     card_num = int(data[1])
                     transaction_amt = float(data[2])
                     transaction_dt = datetime.datetime.strptime(data[0], '%d.%m.%Y %H:%M:%S')
-                    
                     print((transaction_id, card_num, transaction_amt, transaction_dt))
 
                     
