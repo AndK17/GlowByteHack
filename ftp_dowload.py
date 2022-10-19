@@ -21,7 +21,7 @@ def download(way, files):
         
         for file in files[i*200:200*(i+1)]:
             try:
-                print(file)
+                # print(file)
                 with open(way+file, 'wb') as f:
                     con.retrbinary('RETR ' + file, f.write, 1024)
             except:

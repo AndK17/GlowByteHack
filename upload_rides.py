@@ -48,7 +48,7 @@ def update_fact_rides():
         ride_id = 0
         
     for ride in rides:
-        print(ride)
+        # print(ride)
         point_from_txt = ride[0]
         point_to_txt = ride[1]
         distance_val = ride[2]
@@ -67,9 +67,8 @@ def update_fact_rides():
         else:
             driver_pers_num = int(res[-1][0])
             
-        print((ride_id, point_from_txt, point_to_txt, distance_val, price_amt, client_phone_num,\
-            driver_pers_num, car_plate_num, ride_arrival_dt, ride_start_dt, ride_end_dt))
-        print()
+        # print((ride_id, point_from_txt, point_to_txt, distance_val, price_amt, client_phone_num,\
+        #     driver_pers_num, car_plate_num, ride_arrival_dt, ride_start_dt, ride_end_dt))
         
         write_cursor.execute('INSERT INTO fact_rides VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);',
                     (ride_id, point_from_txt, point_to_txt, distance_val, price_amt, client_phone_num,\
@@ -78,7 +77,6 @@ def update_fact_rides():
         ride_id += 1
 
     with open('last_read_line_ride.txt', 'w') as f:
-        print(last_read_line_num)
         f.write(str(last_read_line_num))
 
     write_cursor.close()
